@@ -1,0 +1,29 @@
+{
+  "name": "Location",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "forceId": true,
+  "properties": {
+    "coordinates": {
+      "type": "GeoPoint",
+      "required": true
+    },
+    "timecreated": {
+      "type": "Date",
+      "generated": true,
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "object": {
+      "type": "belongsTo",
+      "model": "Object"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
