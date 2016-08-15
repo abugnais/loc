@@ -1,8 +1,5 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var socketIO = require('socket.io');
-var socketIOAuth = require('socketio-auth');
-
 var app = module.exports = loopback();
 
 app.start = function() {
@@ -29,33 +26,5 @@ boot(app, __dirname, function(err) {
         return;
     }
 
-    app.io = socketIO(app.start());
-
-    socketIOAuth(app.io, {
-        authenticate: function (socket, value, callback) {
-            console.log(socket);
-            var AccessToken = app.models.AccessToken;
-            //get credentials sent by the client
-            var token = AccessToken.find({
-                where:{
-                    and: [{ userId: value.userId }, { id: value.id }]
-                }
-            }, function(err, tokenDetail) {
-                if (err) throw err;
-
-                callback(null, tokenDetail.length > 0);
-            });
-        }
-    });
-
-    app.io.on('connection', function(socket) {
-        console.log('a user connected');
-        socket.on('disconnect', function() {
-            console.log('user disconnected');
-        });
-    });
-
-    app.io.publish = function (collection, data) {
-        app.io.emit(collection, data);
-    };
+    app.start();
 });
